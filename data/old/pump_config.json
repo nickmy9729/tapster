@@ -1,0 +1,98 @@
+{
+	"pump_1": {
+		"flowrate": 600,
+		"name": "Pump 1",
+		"pin": 17, 
+		"value": "vodka"
+	},
+	"pump_2": {
+		"flowrate": 6,
+		"name": "Pump 2",
+		"pin": 27, 
+		"value": "whiskey"
+	},
+	"pump_3": {
+		"flowrate": 6,
+		"name": "Pump 3",
+		"pin": 22, 
+		"value": "lej"
+	},
+	"pump_4": {
+		"flowrate": 6,
+		"name": "Pump 4",
+		"pin": 23, 
+		"value": "oj"
+	},
+	"pump_5": {
+		"flowrate": 6,
+		"name": "Pump 5",
+		"pin": 24, 
+		"value": "grenadine"
+	},
+	"pump_6": {
+		"flowrate": 6,
+		"name": "Pump 6",
+		"pin": 25, 
+		"value": "cj"
+	},
+	"pump_7": {
+		"flowrate": 6,
+		"name": "Pump 7",
+		"pin": 26, 
+		"value": "gin"
+	},
+	"pump_8": {
+		"flowrate": 6,
+		"name": "Pump 8",
+		"pin": 21, 
+		"value": "campart"
+	},
+	"pump_9": {
+		"flowrate": 6,
+		"name": "Pump 9",
+		"pin": 18, 
+		"value": "vermouth"
+	},
+	"pump_10": {
+		"flowrate": 6,
+		"name": "Pump 10",
+		"pin": 16, 
+		"value": "whiteRum"
+	},
+        "pump_11": {
+                "flowrate": 6,
+                "name": "Pump 11",
+                "pin": 16,
+                "value": "whiteRum"
+        },
+        "pump_12": {
+                "flowrate": 6,
+                "name": "Pump 12",
+                "pin": 16,
+                "value": "whiteRum"
+        },
+        "pump_13": {
+                "flowrate": 6,
+                "name": "Pump 13",
+                "pin": 16,
+                "value": "whiteRum"
+        },
+        "pump_14": {
+                "flowrate": 6,
+                "name": "Pump 14",
+                "pin": 16,
+                "value": "whiteRum"
+        },
+        "pump_15": {
+                "flowrate": 6,
+                "name": "Pump 15",
+                "pin": 16,
+                "value": "whiteRum"
+        },
+        "pump_16": {
+                "flowrate": 6,
+                "name": "Pump 16",
+                "pin": 16,
+                "value": "whiteRum"
+        }
+}

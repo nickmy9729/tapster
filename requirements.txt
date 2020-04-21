@@ -1,0 +1,4 @@
+RPi.GPIO==0.6.3
+belfrywidgets==1.0.3
+numpy==1.18.1
+Pillow==7.0.0
