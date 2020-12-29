@@ -1,0 +1,13 @@
+{
+    "name": "Vesper",
+    "ingredients": {
+        "gin": 60,
+        "vodka": 15.0,
+        "vermouth": 7.5
+    },
+    "steps": [
+        ["gin", "vodka", "vermouth"],
+        "Strain into a chilled cocktail glass.",
+        "Twist a slice of lemon peel over the drink, rub along the rim of the glass, and drop it in."
+    ]
+}

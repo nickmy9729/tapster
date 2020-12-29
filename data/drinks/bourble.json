@@ -1,0 +1,13 @@
+{
+    "name": "Bourble",
+    "ingredients": {
+        "bourbon": 2.0,
+        "cointreau": 0.5,
+        "lemon-juice": 0.5 
+    },
+    "steps": [
+        "Fill shaker half way with ice.",
+        ["bourbon", "cointreau", "lemon-juice"],
+        "Strain into cocktail glass"
+    ]
+}
