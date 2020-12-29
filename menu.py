@@ -157,9 +157,9 @@ def launchPumpConfigUI():
 
     columns = {
         'Pump': 'name',
-        'Ingredient': 'value',
         'Flow Rate': 'flowrate',
         'Pin': 'pin',
+        'Ingredient': '',
         'Prime': '',
         'Test': '',
         'Clean': ''
@@ -178,18 +178,60 @@ def launchPumpConfigUI():
                 but.grid(row=row, column=c)
                 cells[(row,c)] = but
             else:
-                b = Label(win, text=bartender.pump_configuration[p][columns[k]])
+                if k == 'Ingredient':
+                    tkvar = StringVar(win)
+                    choices = { 'Pizza','Lasagne','Fries','Fish','Potatoe'}
+                    b = OptionMenu(win, tkvar, *choices)
+                elif k == 'Pin':
+                    b = Entry(win, width=2)
+                elif k == 'Flow Rate':
+                    b = Entry(win, width=3)
+                else:
+                    b = Label(win, text=bartender.pump_configuration[p][columns[k]])
                 #b = Entry(win, text=bartender.pump_configuration[p][columns[k]])
                 b.grid(row=row, column=c)
                 cells[(row,c)] = b
             c = c + 1
         row = row + 1
-    cancelBut = Button(win, text="Cancel", command=win.destroy)
-    cancelBut.grid(row=row, column=6)
-    writeBut = Button(win, text="Ok")
-    writeBut.grid(row=row, column=5)
+    #writeBut = Button(win, text="Ok", command=win.destroy)
+    writeBut = Button(win, text="Ok", command= lambda: getPumpConfig(win))
+    writeBut.grid(row=row, column=6)
     cleanAllBut = Button(win, text="Clean All Pumps")
-    cleanAllBut.grid(row=row, column=4)
+    cleanAllBut.grid(row=row, column=5)
+
+def getPumpConfig(win):
+    columns = {
+        'Pump': 'name',
+        'Flow Rate': 'flowrate',
+        'Pin': 'pin',
+        'Ingredient': '',
+        'Prime': '',
+        'Test': '',
+        'Clean': ''
+    }
+
+    pump_cfg = {}
+    for r_idx, pump in enumerate(bartender.pump_configuration):
+        pump = {
+            "flowrate": '',
+            "name": "Pump " + str(r_idx + 1),
+            "pin": '', 
+            "value": ""
+        }
+        for c_idx, col in enumerate(columns):
+            if col == 'Flow Rate':
+                option = win.grid_slaves(row=r_idx, column=c_idx)
+                pump['flowrate'] = option[0].get()
+            elif col == 'Pin':
+                option = win.grid_slaves(row=r_idx, column=c_idx)
+                pump['pin'] = option[0].get()
+            elif col == 'Ingredient':
+                option = win.grid_slaves(row=r_idx, column=c_idx)
+                pump['value'] = dict(option[0])['text']
+
+            pump_cfg["pump_" + str(r_idx + 1)] = pump
+    print(pump_cfg)
+            
 
 def launchCleanUI():
     win = Toplevel()
@@ -224,8 +266,6 @@ root = Tk()
 root.geometry("640x480")
 menubar = Menu(root)
 adminbar = Menu(menubar, tearoff=0)
-adminbar.add_command(label="Clean", command=launchCleanUI)
-adminbar.add_command(label="Prime", command=root.quit)
 adminbar.add_command(label="Replace Ingredient", command=launchPumpAdmin)
 adminbar.add_command(label="Pump Config", command=launchPumpConfigUI)
 menubar.add_cascade(label="Admin", menu=adminbar)

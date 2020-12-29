@@ -14,8 +14,8 @@ from PIL import ImageFont
 from PIL import ImageDraw
 
 #from dotstar import Adafruit_DotStar
-from data.drinks import drink_list, drink_options
-from data.glasses import glasses
+#from data.drinks import drink_list, drink_options
+#from data.glasses import glasses
 
 #GPIO.setmode(GPIO.BCM)
 
@@ -106,11 +106,65 @@ class Bartender:
 			#self.strip.setPixelColor(i, 0x00FF00)
 		#self.strip.show() 
 
+                self.drink_list = self.getDrinkList()
+                self.ingredients_list = self.getIngredientsList()
+                self.glasses_list = self.getGlassesList()
+
 		print("Done initializing")
+
+        @staticmethod
+        def getIngredient(ing):
+            path_to_json = 'data/ingredients/'
+            json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
+            for file in json_files:
+                if file == ing + ".json":
+                    return Bartender.readJsonFiles(path_to_json, [file])[0]
+
+        @staticmethod
+        def getDrinkList():
+            data = {}
+            path_to_json = './data/drinks/'
+            json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
+            data["drink_list"] = Bartender.readJsonFiles(path_to_json, json_files)
+            return data
+
+        @staticmethod
+        def readJsonFiles(path, files):
+            data = []
+            for file in files:
+                file = path + file
+                print(file)
+                f = open(file,)
+                data.append(json.load(f))
+            return data
+
+        @staticmethod
+        def readJsonFiles(files):
+            data = []
+            for file in files:
+                data.append(json.load(file))
+            return data
+
+	@staticmethod
+        def getGlassesList():
+            path_to_json = './data/glasses/'
+            json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
+            return Bartender.readJsonFiles(path_to_json, json_files)
+
+	@staticmethod
+        def getIngredientsList():
+            path_to_json = 'data/ingredients/'
+            json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
+            return Bartender.readJsonFiles(path_to_json, json_files)
+
 
 	@staticmethod
 	def readPumpConfiguration():
 		return json.load(open('data/pump_config.json'))
+
+        @staticmethod
+        def getAllIngredients():
+
 
 	@staticmethod
 	def writePumpConfiguration(configuration):
@@ -122,7 +176,7 @@ class Bartender:
                 Removes any drinks that can't be handled by the current pump configuration
             """
             drinks = []
-            for d in drink_list:
+            for d in self.drink_list:
                 attributes = {}
                 new_ingredients = {}
                 ratio = list(d['ingredients'].values())
@@ -141,7 +195,7 @@ class Bartender:
                 num_ingredients = len(drink.attributes['ingredients'])
                 for ingredient in drink.attributes["ingredients"]:
                     for pump in sorted(self.pump_configuration):
-                        if self.pump_configuration[pump]['value'] == ingredient:
+                        if self.pump_configuration[pump]['value'] == ingredient or self.pump_configuration[pump]['value'] in ingredient['alternatives']:
                             ingredients += 1
                 if ingredients == num_ingredients:
                     drink.visible = True
@@ -299,16 +353,13 @@ class Bartender:
 		# self.stopInterrupts()
 		self.running = True
 
-		# launch a thread to control lighting
-		#lightsThread = threading.Thread(target=self.cycleLights)
-		#lightsThread.start()
-
 		# Parse the drink ingredients and spawn threads for pumps
 		maxTime = 0
 		pumpThreads = []			
 		for ing in list(ingredients):
+                        ing_data = Bartender.getIngredient(ing)
 			for pump in list(self.pump_configuration.keys()):
-				if ing == self.pump_configuration[pump]["value"]:
+				if ing_data['name'] == self.pump_configuration[pump]["value"] or self.pump_configuration[pump]["value"] in ing_data['alternatives']:
 					mlPMin = self.pump_configuration[pump]["flowrate"]
 					waitTime = float(ingredients['ing'] / float(mlPMin / 60))
 					if waitTime > maxTime:
