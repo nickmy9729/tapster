@@ -141,6 +141,7 @@ class Bartender:
 	def readJsonFiles(self, path, files):
 		data = []
 		for file in files:
+			pprint.pprint("Reading File: " + file)
 			if file == "sample.json":
 				continue
 			file = path + file
@@ -230,13 +231,25 @@ class Bartender:
 			ing[ingredient] = mls
 		return ing
 
+	def mlToOZ(self, mls):
+		return float(mls / 29.5735)
+
+	def ozToML(self, ounces):
+		return float(ounces * 29.5735)
+
 	def calculateDrinkSize(self, drink, taste=0):
 		standard_drink_grams = 14
 		total_grams = 0
 		ing = {}
+		try:
+			if 'recommended_size' in drink:
+				return self.dispenseAmount(drink, self.ozToML(drink['recommended_size']))
+		except:
+			pass
+		pprint.pprint(drink)
 		for ingredient in drink['ingredients']:
 			gramsperml = self.calculateAlcoholGrams(ingredient)
-			ingredientgrams = gramsperml * drink['ingredients'][ingredient]
+			ingredientgrams = float(gramsperml * drink['ingredients'][ingredient])
 			total_grams = ingredientgrams + total_grams
 		if total_grams == 0:
 			# Non Alcoholic Drink

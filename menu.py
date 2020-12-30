@@ -108,7 +108,7 @@ class Application():
             wiz.set_prev_enabled(False)
 
         def getDrinkSize(recipe_name):
-            drink =  bartender.getDrink(bartender.slugify(recipe_name))
+            drink = bartender.getDrink(bartender.slugify(recipe_name))
             ing_sizes = bartender.calculateDrinkSize(drink)
             mls = bartender.calculateTotalDrinkSize(ing_sizes)
             return ing_sizes, mls
@@ -119,7 +119,7 @@ class Application():
 
         pane = wiz.add_pane("Introduction", "Introduction", entrycommand=lambda: handle_entry())
         ing_sizes, total_mls = getDrinkSize(recipe.name)
-        lbl = Label(pane, text="Making Drink " + recipe.name + "\n\nDrink Size will be " + str(total_mls) + "ml", font=("Helvetica", 15))
+        lbl = Label(pane, text="Making Drink " + recipe.name + "\n\nDrink Size will be " + str(bartender.mlToOZ(total_mls)) + "oz", font=("Helvetica", 15))
         lbl.pack(side=TOP, fill=BOTH, expand=1)
         print(recipe.attributes)
         if 'steps' in recipe.attributes:

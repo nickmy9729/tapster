@@ -1,0 +1,14 @@
+{
+    "name": "",
+    "ingredients": {
+        "bourbon": 2,
+        "gin": 1.0
+    },
+    "steps": [
+        "Place a mixing glass half-filled with ice.",
+        ["bourbon", "gin"],
+        "Stir and strain into a cocktail glass.  Garnish with a cherry"
+    ],
+    "recommended_size": 3.0,
+    "recommended_glass": "cocktail"
+}

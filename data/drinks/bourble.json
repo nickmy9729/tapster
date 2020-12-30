@@ -9,5 +9,7 @@
         "Fill shaker half way with ice.",
         ["bourbon", "cointreau", "lemon-juice"],
         "Strain into cocktail glass"
-    ]
+    ],
+    "recommended_size": 3.0,
+    "recommended_glass": "cocktail"
 }

@@ -2,9 +2,8 @@
 recipe = {
     'name': 'Vesper',
     'ingredients': {
-        'gin': 6,
-        'vodka': 2,
-        'vermouth': 1
+        'gin': 2,
+        'oj': 4
     },
     'steps': [
         { 'pour': ['vermouth'] },
@@ -116,6 +115,6 @@ def calculateAlcoholGrams(ingredient):
         return grams
 
 
-#calculateDrinkSize(recipe)
+calculateDrinkSize(recipe)
 #dispenseAmount(recipe, 3785.41)
-dispenseByRecGlass(recipe)
+#dispenseByRecGlass(recipe)
