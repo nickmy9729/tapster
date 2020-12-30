@@ -161,8 +161,9 @@ class Application():
         self.drinkSelection.delete(0, END)
         self.drinkSelection.insert(END, "Drink Name: " + self.availDrinks[index].name)
         self.drinkSelection.insert(END, "Ingredients: ")
+        pprint.pprint(self.availDrinks[index].attributes)
         for i in self.availDrinks[index].attributes['ingredients']:
-            self.drinkSelection.insert(END, "    " + i + ": " + str(self.availDrinks[index].attributes['ingredients'][i]) + " ml")
+            self.drinkSelection.insert(END, "    " + i + ": " + str(self.availDrinks[index].attributes['ingredients'][i]) + " parts")
         
     def adminMenu(self):
         pass

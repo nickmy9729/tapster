@@ -3,31 +3,31 @@
         "flowrate": "400",
         "name": "Pump 1",
         "pin": "1",
-        "value": "apricot-brandy"
+        "value": "vodka"
     },
     "pump_2": {
         "flowrate": "400",
         "name": "Pump 2",
         "pin": "2",
-        "value": "brandy"
+        "value": "soda"
     },
     "pump_3": {
         "flowrate": "400",
         "name": "Pump 3",
         "pin": "3",
-        "value": "white-rum"
+        "value": "lemon-juice"
     },
     "pump_4": {
         "flowrate": "400",
         "name": "Pump 4",
         "pin": "4",
-        "value": "coke"
+        "value": "lime-juice"
     },
     "pump_5": {
         "flowrate": "400",
         "name": "Pump 5",
         "pin": "5",
-        "value": "apricot-brandy"
+        "value": "cranberry-juice"
     },
     "pump_6": {
         "flowrate": "400",

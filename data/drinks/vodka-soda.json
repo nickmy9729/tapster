@@ -1,9 +1,9 @@
 {
     "name": "Vodka Soda",
     "ingredients": {
-        "vodka": 2.0,
-        "lemon-juice": 0.2,
-        "soda": 6.0
+        "vodka": 40,
+        "lemon-juice": 15,
+        "soda": 150.0
     },
     "steps": [
         "Place collins glass with ice.",
