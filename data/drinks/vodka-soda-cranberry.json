@@ -1,0 +1,16 @@
+{
+    "name": "Vodka Soda Cranberry",
+    "ingredients": {
+        "vodka": 1.3,
+        "lime": 0.5,
+        "soda": 5.0,
+        "cranberry-juice": 0.5
+    },
+    "steps": [
+        "Place collins glass with ice.",
+        ["vodka", "soda", "lime", "cranberry-juice"],
+        "Garnish with a lime wedge"
+    ],
+    "recommended_size": 7.0,
+    "recommended_glass": "collins"
+}
