@@ -119,6 +119,13 @@ class Bartender:
 		text = text.lower()
 		return re.sub(r'[\W_]+', '-', text)
 
+	def getDrink(self, drink_name):
+		path_to_json = './data/drinks/'
+		json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
+		for file in json_files:
+			if file == drink_name + ".json":
+				return self.readJsonFiles(path_to_json, [file])[0]
+
 	def getIngredient(self, ing):
 		path_to_json = 'data/ingredients/'
 		json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
@@ -228,9 +235,12 @@ class Bartender:
 		total_grams = 0
 		ing = {}
 		for ingredient in drink['ingredients']:
-			gramsperml = calculateAlcoholGrams(ingredient)
+			gramsperml = self.calculateAlcoholGrams(ingredient)
 			ingredientgrams = gramsperml * drink['ingredients'][ingredient]
 			total_grams = ingredientgrams + total_grams
+		if total_grams == 0:
+			# Non Alcoholic Drink
+			return self.dispenseAmount(drink, 414)
 		multiple = standard_drink_grams / total_grams
 		if taste == 1:
 			multiple = 1
@@ -239,13 +249,24 @@ class Bartender:
 			ing[ingredient] = mls
 		return ing
 
+	def calculateTotalDrinkSize(self, ing_size):
+		total_size_mls = 0.0
+		for i in ing_size:
+			total_size_mls = float(total_size_mls) + float(ing_size[i])
+		return total_size_mls
+
 	def calculateAlcoholGrams(self, ingredient):
 		grams = None
-		if ingredient in ingredients:
+		pprint.pprint(self.ingredients_list)
+		pprint.pprint(ingredient)
+		try:
+			element = list(map(lambda x: self.slugify(x['name']), self.ingredients_list)).index(ingredient)
 			volume = 1 #in milliliter
-			abv = float(ingredients[ingredient]['abv']) / 100
+			abv = float(self.ingredients_list[element]['abv']) / 100
 			grams = float(abv * .789)
 			return grams
+		except ValueError:
+			return 0
 
 	def clean(self):
 		waitTime = 20

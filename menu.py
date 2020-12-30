@@ -58,7 +58,7 @@ class Application():
         bttn.config(state=DISABLED)
         step_num = wiz.pane_names.index(wiz.selected_pane)
         num_steps = len(wiz.pane_names)
-        lblvar.set("Pouring Drink\n\nAdding Ingredients:\n" + "\n".join(recipe.attributes['steps'][step_num - 1]))
+        lblvar.set("Pouring Ingredients\n\n" + "\n".join(recipe.attributes['steps'][step_num - 1]))
         var = IntVar()
         self.master.after(10000, var.set, 1)
         print("waiting...")
@@ -107,8 +107,19 @@ class Application():
             wiz.set_next_enabled(False)
             wiz.set_prev_enabled(False)
 
+        def getDrinkSize(recipe_name):
+            drink =  bartender.getDrink(bartender.slugify(recipe_name))
+            ing_sizes = bartender.calculateDrinkSize(drink)
+            mls = bartender.calculateTotalDrinkSize(ing_sizes)
+            return ing_sizes, mls
+
+        def getDrinkGlass(recipe_name):
+            pass
+       
+
         pane = wiz.add_pane("Introduction", "Introduction", entrycommand=lambda: handle_entry())
-        lbl = Label(pane, text="Making Drink " + recipe.name, font=("Helvetica", 15))
+        ing_sizes, total_mls = getDrinkSize(recipe.name)
+        lbl = Label(pane, text="Making Drink " + recipe.name + "\n\nDrink Size will be " + str(total_mls) + "ml", font=("Helvetica", 15))
         lbl.pack(side=TOP, fill=BOTH, expand=1)
         print(recipe.attributes)
         if 'steps' in recipe.attributes:
