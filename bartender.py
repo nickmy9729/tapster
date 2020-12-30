@@ -1,10 +1,13 @@
 import pprint
 import time
 import sys
+import os
+import re
 #import RPi.GPIO as GPIO
 import json
 import traceback
 import threading
+import relay16
 
 #import Adafruit_GPIO.SPI as SPI
 #import Adafruit_SSD1306
@@ -86,7 +89,7 @@ class Bartender:
 		self.draw = ImageDraw.Draw(self.image)
 
 		# load the pump configuration from file
-		self.pump_configuration = Bartender.readPumpConfiguration()
+		self.pump_configuration = self.readPumpConfiguration()
 		for pump in list(self.pump_configuration.keys()):
                         pass
 			#GPIO.setup(self.pump_configuration[pump]["pin"], GPIO.OUT, initial=GPIO.HIGH)
@@ -106,100 +109,89 @@ class Bartender:
 			#self.strip.setPixelColor(i, 0x00FF00)
 		#self.strip.show() 
 
-                self.drink_list = self.getDrinkList()
-                self.ingredients_list = self.getIngredientsList()
-                self.glasses_list = self.getGlassesList()
+		self.drink_list = self.getDrinkList()
+		self.ingredients_list = self.getIngredientsList()
+		self.glasses_list = self.getGlassesList()
 
 		print("Done initializing")
 
-        @staticmethod
-        def getIngredient(ing):
-            path_to_json = 'data/ingredients/'
-            json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
-            for file in json_files:
-                if file == ing + ".json":
-                    return Bartender.readJsonFiles(path_to_json, [file])[0]
+	def slugify(self, text):
+		text = text.lower()
+		return re.sub(r'[\W_]+', '-', text)
 
-        @staticmethod
-        def getDrinkList():
-            data = {}
-            path_to_json = './data/drinks/'
-            json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
-            data["drink_list"] = Bartender.readJsonFiles(path_to_json, json_files)
-            return data
+	def getIngredient(self, ing):
+		path_to_json = 'data/ingredients/'
+		json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
+		for file in json_files:
+			if file == ing + ".json":
+				return self.readJsonFiles(path_to_json, [file])[0]
 
-        @staticmethod
-        def readJsonFiles(path, files):
-            data = []
-            for file in files:
-                file = path + file
-                print(file)
-                f = open(file,)
-                data.append(json.load(f))
-            return data
+	def getDrinkList(self):
+		path_to_json = './data/drinks/'
+		json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
+		return sorted(self.readJsonFiles(path_to_json, json_files), key=lambda k: k['name'])
 
-        @staticmethod
-        def readJsonFiles(files):
-            data = []
-            for file in files:
-                data.append(json.load(file))
-            return data
+	def readJsonFiles(self, path, files):
+		data = []
+		for file in files:
+			if file == "sample.json":
+				continue
+			file = path + file
+			f = open(file,)
+			data.append(json.load(f))
+		return data
 
-	@staticmethod
-        def getGlassesList():
-            path_to_json = './data/glasses/'
-            json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
-            return Bartender.readJsonFiles(path_to_json, json_files)
+	def getGlassesList(self):
+		path_to_json = './data/glasses/'
+		json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
+		return sorted(self.readJsonFiles(path_to_json, json_files), key=lambda k: k['name'])
 
-	@staticmethod
-        def getIngredientsList():
-            path_to_json = 'data/ingredients/'
-            json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
-            return Bartender.readJsonFiles(path_to_json, json_files)
+	def getIngredientsList(self):
+		path_to_json = 'data/ingredients/'
+		json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
+		return sorted(self.readJsonFiles(path_to_json, json_files), key=lambda k: k['name'])
 
-
-	@staticmethod
-	def readPumpConfiguration():
+	def readPumpConfiguration(self):
 		return json.load(open('data/pump_config.json'))
 
-        @staticmethod
-        def getAllIngredients():
+	def getAllIngredients(self):
+		pass
 
 
-	@staticmethod
-	def writePumpConfiguration(configuration):
+	def writePumpConfiguration(self, configuration):
 		with open("data/pump_config.json", "w") as jsonFile:
-			json.dump(configuration, jsonFile)
+			json.dump(configuration, jsonFile, indent=4)
+		self.pump_configuration = self.readPumpConfiguration()
 
 	def filterDrinks(self, menu):
-            """
-                Removes any drinks that can't be handled by the current pump configuration
-            """
-            drinks = []
-            for d in self.drink_list:
-                attributes = {}
-                new_ingredients = {}
-                ratio = list(d['ingredients'].values())
-                print(ratio)
-                my_gcd = self.calcGCD(ratio)
-                for i in d['ingredients']:
-                     d['ingredients'][i] = round(float(d['ingredients'][i] / my_gcd))
-                for i in d:
-                    attributes[i] = d[i]
-                drinks.append(MenuItem('drink', d["name"], attributes))
+		"""
+		Removes any drinks that can't be handled by the current pump configuration
+		"""
+		drinks = []
+		for d in self.drink_list:
+			attributes = {}
+			new_ingredients = {}
+			ratio = list(d['ingredients'].values())
+			my_gcd = self.calcGCD(ratio)
+			for i in d['ingredients']:
+				d['ingredients'][i] = round(float(d['ingredients'][i] / my_gcd))
+			for i in d:
+				attributes[i] = d[i]
+			drinks.append(MenuItem('drink', d["name"], attributes))
 
-            n = 0
-            k = 0
-            for drink in drinks:
-                ingredients = 0
-                num_ingredients = len(drink.attributes['ingredients'])
-                for ingredient in drink.attributes["ingredients"]:
-                    for pump in sorted(self.pump_configuration):
-                        if self.pump_configuration[pump]['value'] == ingredient or self.pump_configuration[pump]['value'] in ingredient['alternatives']:
-                            ingredients += 1
-                if ingredients == num_ingredients:
-                    drink.visible = True
-            return drinks
+		n = 0
+		k = 0
+		for drink in drinks:
+			ingredients = 0
+			num_ingredients = len(drink.attributes['ingredients'])
+			for ingredient in drink.attributes["ingredients"]:
+				ing_data = self.getIngredient(ingredient)
+				for pump in sorted(self.pump_configuration):
+					if self.pump_configuration[pump]['value'] == ingredient or self.pump_configuration[pump]['value'] in ing_data['alternatives']:
+						ingredients += 1
+					if ingredients == num_ingredients:
+						drink.visible = True
+		return drinks
 
 	def calcGCD(self, my_list):
 		result = my_list[0]
@@ -357,7 +349,7 @@ class Bartender:
 		maxTime = 0
 		pumpThreads = []			
 		for ing in list(ingredients):
-                        ing_data = Bartender.getIngredient(ing)
+			ing_data = self.getIngredient(ing)
 			for pump in list(self.pump_configuration.keys()):
 				if ing_data['name'] == self.pump_configuration[pump]["value"] or self.pump_configuration[pump]["value"] in ing_data['alternatives']:
 					mlPMin = self.pump_configuration[pump]["flowrate"]
