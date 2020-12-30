@@ -2,12 +2,12 @@
     "name": "Vodka Soda",
     "ingredients": {
         "vodka": 2.0,
-        "lemon": 0.2,
+        "lemon-juice": 0.2,
         "soda": 6.0
     },
     "steps": [
         "Place collins glass with ice.",
-        ["vodka", "soda", "lemon"],
+        ["vodka", "soda", "lemon-juice"],
         "Garnish with a lemon wedge"
     ],
     "recommended_size": 8.2,
