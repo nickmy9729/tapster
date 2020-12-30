@@ -1,0 +1,12 @@
+{
+    "name": "Bourbon and Branch",
+    "ingredients": {
+        "bourbon": 2.0,
+        "water": 4.0
+    },
+    "steps": [
+        ["bourbon", "water"]
+    ],
+    "recommended_size": 6.0,
+    "recommended_glass": "rocks"
+}
