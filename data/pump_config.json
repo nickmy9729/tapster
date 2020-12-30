@@ -51,13 +51,13 @@
         "flowrate": "400",
         "name": "Pump 9",
         "pin": "9",
-        "value": "champagne"
+        "value": "bourbon"
     },
     "pump_10": {
         "flowrate": "400",
         "name": "Pump 10",
         "pin": "10",
-        "value": "white-rum"
+        "value": "triple-sec"
     },
     "pump_11": {
         "flowrate": "400",
@@ -81,13 +81,13 @@
         "flowrate": "100",
         "name": "Pump 14",
         "pin": "14",
-        "value": "white-rum"
+        "value": "tonic-water"
     },
     "pump_15": {
         "flowrate": "100",
         "name": "Pump 15",
         "pin": "15",
-        "value": "white-rum"
+        "value": "water"
     },
     "pump_16": {
         "flowrate": "100",

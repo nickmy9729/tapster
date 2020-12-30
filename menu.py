@@ -39,20 +39,25 @@ class Application():
         scrollbar = Scrollbar(self.frm, orient="vertical")
         scrollbar.pack(side=RIGHT, fill=Y)
 
-        drinkList = Listbox(self.frm, width=20, yscrollcommand=scrollbar.set, font=("Helvetica", 20))
-        drinkList.bind('<<ListboxSelect>>',self.onselect)
-        drinkList.pack(expand=True, fill=Y)
+        self.drinkList = Listbox(self.frm, width=20, yscrollcommand=scrollbar.set, font=("Helvetica", 20))
+        self.drinkList.bind('<<ListboxSelect>>',self.onselect)
+        self.drinkList.pack(expand=True, fill=Y)
 
         self.drinkSelection = Listbox(master, height=15, font=("Helvetica", 15))
         self.drinkSelection.grid(row=1, column=1, sticky=E+W+N, padx=10)
 
-        for d in self.drinks:
-            if d.visible == True:
-                self.availDrinks.append(d)
-                drinkList.insert(END, d.name)
+        self.updateDrinkList()
 
         self.pourButton = Button(master, text='Make Drink', command=lambda: self.quit(self.master), font=("Helvetica", 15))
         self.pourButton.grid(row=2, column=1, sticky=E+W+N)
+
+    def updateDrinkList(self):
+        self.availDrinks = []
+        self.drinkList.delete(0,END)
+        for d in self.drinks:
+            if d.visible == True:
+                self.availDrinks.append(d)
+                self.drinkList.insert(END, d.name)
     
     def pour_drink(self, wiz, bttn, lblvar, recipe):
         bttn.config(state=DISABLED)
@@ -280,6 +285,9 @@ def getPumpConfig(win):
 
             pump_cfg["pump_" + str(r_idx + 1)] = pump
     bartender.writePumpConfiguration(pump_cfg)
+   
+    menu.drinks = menu.bartender.filterDrinks("drink")
+    menu.updateDrinkList()
     win.destroy()
 
 

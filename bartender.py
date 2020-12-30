@@ -141,7 +141,6 @@ class Bartender:
 	def readJsonFiles(self, path, files):
 		data = []
 		for file in files:
-			pprint.pprint("Reading File: " + file)
 			if file == "sample.json":
 				continue
 			file = path + file
@@ -190,6 +189,7 @@ class Bartender:
 		n = 0
 		k = 0
 		for drink in drinks:
+			drink.visible = False
 			ingredients = 0
 			num_ingredients = len(drink.attributes['ingredients'])
 			for ingredient in drink.attributes["ingredients"]:
@@ -199,6 +199,7 @@ class Bartender:
 						ingredients += 1
 					if ingredients == num_ingredients:
 						drink.visible = True
+
 		return drinks
 
 	def calcGCD(self, my_list):
@@ -246,7 +247,6 @@ class Bartender:
 				return self.dispenseAmount(drink, self.ozToML(drink['recommended_size']))
 		except:
 			pass
-		pprint.pprint(drink)
 		for ingredient in drink['ingredients']:
 			gramsperml = self.calculateAlcoholGrams(ingredient)
 			ingredientgrams = float(gramsperml * drink['ingredients'][ingredient])
@@ -270,8 +270,6 @@ class Bartender:
 
 	def calculateAlcoholGrams(self, ingredient):
 		grams = None
-		pprint.pprint(self.ingredients_list)
-		pprint.pprint(ingredient)
 		try:
 			element = list(map(lambda x: self.slugify(x['name']), self.ingredients_list)).index(ingredient)
 			volume = 1 #in milliliter
