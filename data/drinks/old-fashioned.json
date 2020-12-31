@@ -1,0 +1,19 @@
+{
+    "name": "Old Fashioned",
+    "ingredients": {
+        "bitters": 3,
+        "water": 5,
+        "whiskey": 120,
+        "simple-syrup": 5
+    },
+    "steps": [
+        ["simple-syrup", "bitters"],
+        "Fill glass halfway with ice, then stir about a dozen times. Add enough ice to fill glass.",
+        "Squeeze orange peel over glass to extract oils, add peel to glass.",
+        ["whiskey", "water"],
+        "Stir just until drink is cold and alcoholic bite has softened, about a dozen times.",
+        "Garnish with cherry, swizzle stick, and straw."
+    ],
+    "recommended_size": 5,
+    "recommended_glass": "old-fashioned"
+}

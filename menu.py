@@ -124,7 +124,7 @@ class Application():
 
         pane = wiz.add_pane("Introduction", "Introduction", entrycommand=lambda: handle_entry())
         ing_sizes, total_mls = getDrinkSize(recipe.name)
-        lbl = Label(pane, text="Making Drink " + recipe.name + "\n\nDrink Size will be " + str(bartender.mlToOZ(total_mls)) + "oz", font=("Helvetica", 15))
+        lbl = Label(pane, text="Making Drink " + recipe.name + "\n\nDrink Size will be " + str(int(bartender.mlToOZ(total_mls))) + "oz", font=("Helvetica", 20))
         lbl.pack(side=TOP, fill=BOTH, expand=1)
         if 'steps' in recipe.attributes:
             step_idx = 1
@@ -133,15 +133,15 @@ class Application():
                 pane = None
                 if isinstance(step, str):
                     pane = wiz.add_pane("step " + str(step_idx), "step " + str(step_idx), entrycommand=lambda: handle_entry())
-                    lbl = Label(pane, text=step)
+                    lbl = Label(pane, text=step, font=("Helvetica", 20))
                     lbl.pack(side=TOP, fill=BOTH, expand=1)
                 if isinstance(step, list):
                     pane = wiz.add_pane("step " + str(step_idx), "step " + str(step_idx), entrycommand=pour_start)
                     text_var = StringVar(pane)
                     text_var.set("Ready to pour ingredients:\n" + "\n".join(recipe.attributes['steps'][step_idx - 1]) + "\n\nPlace glass under dispenser and press 'Pour' when ready.")
-                    lbl  = Label(pane, textvariable=text_var, font=("Helvetica", 15))
+                    lbl  = Label(pane, textvariable=text_var, font=("Helvetica", 20))
                     lbl.pack(side=TOP, fill=BOTH, expand=1)
-                    bttn = Button(pane, text="Pour", font=("Helvetica", 15))
+                    bttn = Button(pane, text="Pour", font=("Helvetica", 20))
                     bttn.config(command=lambda: self.pour_drink(wiz, bttn, text_var, ing_sizes))
                     bttn.pack(side=BOTTOM, fill=BOTH)
                 step_idx = step_idx + 1
@@ -229,7 +229,7 @@ def launchPumpConfigUI():
                     b.config(font=('Helvetica', 20), width=5)
                 elif k == 'Flow Rate':
                     b = ttk.Combobox(win)
-                    flow_options = (100, 400)
+                    flow_options = (100, 400, 500)
                     b['values'] = flow_options
                     try:
                         curr_flow = flow_options.index(int(bartender.pump_configuration[p]['flowrate']))
@@ -336,6 +336,8 @@ adminbar = Menu(menubar, tearoff=0)
 adminbar.add_command(label="Pump Config", command=launchPumpConfigUI, font=("Helvetica", 20))
 menubar.add_cascade(label="Admin", menu=adminbar, font=("Helvetica", 20))
 root.config(menu=menubar)
+#bigfont = tkFont.Font(family="Helvetica",size=20)
+#root.option_add("*TCombobox*Listbox*Font", bigfont)
 menu = Application(root, bartender)
 
 

@@ -1,0 +1,14 @@
+{
+    "name": "Shirley Temple",
+    "ingredients": {
+        "lemon-lime-soda": 120,
+        "ginger-ale": 60,
+        "grenadine": 5
+    },
+    "steps": [
+        ["lemon-lime-soda", "ginger-ale", "grenadine"],
+        "Garnish with cherry and orange slice"
+    ],
+    "recommended_size": 7,
+    "recommended_glass": "highball"
+}

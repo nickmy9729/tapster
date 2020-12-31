@@ -157,10 +157,10 @@ class Bartender:
 		return ing
 
 	def mlToOZ(self, mls):
-		return float(mls / 29.5735)
+		return float(mls / 30)
 
 	def ozToML(self, ounces):
-		return float(ounces * 29.5735)
+		return float(ounces * 30)
 
 	def calculateDrinkSize(self, drink, taste=0):
 		standard_drink_grams = 14
@@ -236,7 +236,7 @@ class Bartender:
 
 	def primePump(self, pump):
 		p_cfg = self.pump_configuration[pump]
-		self.pour(p_cfg['pin'], 10)
+		self.pour(p_cfg['pin'], 15)
 
 	def pour(self, pin, waitTime):
 		relayBoard.clearRelay(int(pin))
