@@ -68,6 +68,7 @@ class Bartender:
 			if file == "sample.json":
 				continue
 			file = path + file
+			print("Reading file: " + file)
 			f = open(file,)
 			data.append(json.load(f))
 		return data
