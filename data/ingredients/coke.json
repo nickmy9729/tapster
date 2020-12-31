@@ -1,6 +1,6 @@
 {
     "abv": 0, 
-    "alternatives": [], 
+    "alternatives": ["cola", "pepsi"], 
     "image": "", 
     "name": "Coke", 
     "proof": 0
