@@ -1,52 +1,23 @@
 import pprint
+import smbus
 import time
+import relay16
+
 import sys
 import os
 import re
-#import RPi.GPIO as GPIO
 import json
 import traceback
 import threading
-import relay16
 
-#import Adafruit_GPIO.SPI as SPI
-#import Adafruit_SSD1306
+bus = smbus.SMBus(1)
+address = 0x20
+relayBoard = relay16.relay16(bus, address)
+relayBoard.clearAllRelays()
 
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
-
-#from dotstar import Adafruit_DotStar
-#from data.drinks import drink_list, drink_options
-#from data.glasses import glasses
-
-#GPIO.setmode(GPIO.BCM)
-
-SCREEN_WIDTH = 128
-SCREEN_HEIGHT = 64
-
-LEFT_BTN_PIN = 13
-LEFT_PIN_BOUNCE = 300
-
-RIGHT_BTN_PIN = 5
-RIGHT_PIN_BOUNCE = 300
-
-OLED_RESET_PIN = 15
-OLED_DC_PIN = 16
-
-NUMBER_NEOPIXELS = 23
-#I use other Pins here, Default is 26
-NEOPIXEL_DATA_PIN = 21
-#I use other Pins here, Default is 6
-NEOPIXEL_CLOCK_PIN = 20
-NEOPIXEL_BRIGHTNESS = 64
-
-# Raspberry Pi pin configuration:
-RST = 14
-# Note the following are only used with SPI:
-DC = 15
-SPI_PORT = 0
-SPI_DEVICE = 0
 
 class MenuItem(object):
         def __init__(self, type, name, attributes = None, visible = True):
@@ -59,55 +30,8 @@ class Bartender:
 	def __init__(self):
 		self.running = False
 
-		# set the oled screen height
-		self.screen_width = SCREEN_WIDTH
-		self.screen_height = SCREEN_HEIGHT
-
-		# configure screen
-		spi_bus = 0
-		spi_device = 0
-
-		# Very important... This lets py-gaugette 'know' what pins to use in order to reset the display
-		#self.led = disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000)) # Change rows & cols values depending on your display dimensions.
-		
-		# Initialize library.
-		#self.led.begin()
-
-		# Clear display.
-		#self.led.clear()
-		#self.led.display()
-
-
-		# Create image buffer.
-		# Make sure to create image with mode '1' for 1-bit color.
-		self.image = Image.new('1', (self.screen_width, self.screen_height))
-
-		# Load default font.
-		self.font = ImageFont.truetype("FreeMono.ttf", 15)
-
-		# Create drawing object.
-		self.draw = ImageDraw.Draw(self.image)
-
 		# load the pump configuration from file
 		self.pump_configuration = self.readPumpConfiguration()
-		for pump in list(self.pump_configuration.keys()):
-                        pass
-			#GPIO.setup(self.pump_configuration[pump]["pin"], GPIO.OUT, initial=GPIO.HIGH)
-
-		# setup pixels:
-		self.numpixels = NUMBER_NEOPIXELS # Number of LEDs in strip
-
-		# Here's how to control the strip from any two GPIO pins:
-		datapin  = NEOPIXEL_DATA_PIN
-		clockpin = NEOPIXEL_CLOCK_PIN
-		#self.strip = Adafruit_DotStar(self.numpixels, datapin, clockpin)
-		#self.strip.begin()           # Initialize pins for output
-		#self.strip.setBrightness(NEOPIXEL_BRIGHTNESS) # Limit brightness to ~1/4 duty cycle
-
-		# Set the Default or "StandBy Light" to Red in this case
-		#for i in range(0, self.numpixels):
-			#self.strip.setPixelColor(i, 0x00FF00)
-		#self.strip.show() 
 
 		self.drink_list = self.getDrinkList()
 		self.ingredients_list = self.getIngredientsList()
@@ -279,24 +203,19 @@ class Bartender:
 		except ValueError:
 			return 0
 
-	def clean(self):
+	def clean(self, pumps):
 		waitTime = 20
 		pumpThreads = []
 
-		# cancel any button presses while the drink is being made
-		# self.stopInterrupts()
 		self.running = True
 
 		for pump in list(self.pump_configuration.keys()):
-			pump_t = threading.Thread(target=self.pour, args=(self.pump_configuration[pump]["pin"], waitTime))
+			pump_t = threading.Thread(target=self.pour, args=(int(self.pump_configuration[pump]["pin"]), waitTime))
 			pumpThreads.append(pump_t)
 
 		# start the pump threads
 		for thread in pumpThreads:
 			thread.start()
-
-		# start the progress bar
-		self.progressBar(waitTime)
 
 		# wait for threads to finish
 		for thread in pumpThreads:
@@ -305,69 +224,26 @@ class Bartender:
 		# show the main menu
 		self.menuContext.showMenu()
 
-		# sleep for a couple seconds to make sure the interrupts don't get triggered
-		time.sleep(2);
+	def testPump(self, pump):
+		p_cfg = self.pump_configuration[pump]
+		self.pour(p_cfg['pin'], 3)
 
+	def cleanPump(self, pump):
+		p_cfg = self.pump_configuration[pump]
+		self.primePump(pump)
+		sleep(5 * 60)
+		self.pour(p_cfg['pin'], 60)
 
-	def cycleLights(self):
-		t = threading.currentThread()
-		head  = 0               # Index of first 'on' pixel
-		tail  = -10             # Index of last 'off' pixel
-		color = 0xFF0000        # 'On' color (starts red)
-
-		while getattr(t, "do_run", True):
-			#self.strip.setPixelColor(head, color) # Turn on 'head' pixel
-			#self.strip.setPixelColor(tail, 0)     # Turn off 'tail'
-			#self.strip.show()                     # Refresh strip
-			time.sleep(1.0 / 50)             # Pause 20 milliseconds (~50 fps)
-
-			head += 1                        # Advance head position
-			if(head >= self.numpixels):           # Off end of strip?
-				head    = 0              # Reset to start
-				color >>= 8              # Red->green->blue->black
-				if(color == 0): color = 0xFF0000 # If black, reset to red
-
-			tail += 1                        # Advance tail position
-			if(tail >= self.numpixels): tail = 0  # Off end? Reset
-
-	def lightsEndingSequence(self):
-		# make lights green
-		#for i in range(0, self.numpixels):
-			#self.strip.setPixelColor(i, 0xFF0000)
-		#self.strip.show()
-
-		time.sleep(5)
-
-		# set them back to red "StandBy Light"
-		#for i in range(0, self.numpixels):
-			#self.strip.setPixelColor(i, 0x00FF00)
-		#self.strip.show() 
+	def primePump(self, pump):
+		p_cfg = self.pump_configuration[pump]
+		self.pour(p_cfg['pin'], 10)
 
 	def pour(self, pin, waitTime):
-		pass
-		#GPIO.output(pin, GPIO.LOW)
+		relayBoard.clearRelay(int(pin))
+		relayBoard.setRelay(int(pin))
 		time.sleep(waitTime)
-		#GPIO.output(pin, GPIO.HIGH)
-		# other way of dealing with Display delay, Thanks Yogesh
+		relayBoard.clearRelay(int(pin))
 
-	def progressBar(self, waitTime):
-		#-with the outcommented version, it updates faster, but there is a limit with the delay, you have to figure out-#
-		#mWaitTime = waitTime - 7
-		#interval = mWaitTime/ 100.0
-		#if interval < 0.07:
-		#	interval = 0
-		#for x in range(1, 101):	
-		interval = waitTime / 10.0
-		for x in range(1, 11):
-			#self.led.clear()
-			self.draw.rectangle((0,0,self.screen_width,self.screen_height), outline=0, fill=0)
-		#	self.updateProgressBar(x, y=35)
-			self.updateProgressBar(x*10, y=35)
-			#self.led.image(self.image)
-			#self.led.display()
-			time.sleep(interval)
-
-        #
         # ingredients = {
         #        'vodka': 300,
         #        'oj': 200
@@ -378,14 +254,15 @@ class Bartender:
 		self.running = True
 
 		# Parse the drink ingredients and spawn threads for pumps
+                # Example: {'cranberry-juice': 28, 'lime-juice': 14, 'soda': 142, 'vodka': 38}
 		maxTime = 0
 		pumpThreads = []			
-		for ing in list(ingredients):
+		for ing in ingredients:
 			ing_data = self.getIngredient(ing)
 			for pump in list(self.pump_configuration.keys()):
-				if ing_data['name'] == self.pump_configuration[pump]["value"] or self.pump_configuration[pump]["value"] in ing_data['alternatives']:
-					mlPMin = self.pump_configuration[pump]["flowrate"]
-					waitTime = float(ingredients['ing'] / float(mlPMin / 60))
+				if ing == self.pump_configuration[pump]["value"] or self.pump_configuration[pump]["value"] in ing_data['alternatives']:
+					mlPMin = float(self.pump_configuration[pump]["flowrate"])
+					waitTime = float(float(ingredients[ing]) / float(mlPMin / 60))
 					if waitTime > maxTime:
 						maxTime = waitTime
 					pump_t = threading.Thread(target=self.pour, args=(self.pump_configuration[pump]["pin"], waitTime))
@@ -401,16 +278,4 @@ class Bartender:
 		for thread in pumpThreads:
 			thread.join()
 
-		# stop the light thread
-		#lightsThread.do_run = False
-		#lightsThread.join()
-		
-		# show the ending sequence lights
-		#self.lightsEndingSequence()
-
-		# sleep for a couple seconds to make sure the interrupts don't get triggered
-		#time.sleep(2);
-
-		# reenable interrupts
-		# self.startInterrupts()
 		self.running = False

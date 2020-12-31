@@ -18,7 +18,7 @@
         "value": "lemon-juice"
     },
     "pump_4": {
-        "flowrate": "400",
+        "flowrate": "100",
         "name": "Pump 4",
         "pin": "4",
         "value": "lime-juice"
@@ -42,7 +42,7 @@
         "value": "white-rum"
     },
     "pump_8": {
-        "flowrate": "400",
+        "flowrate": "100",
         "name": "Pump 8",
         "pin": "8",
         "value": "white-rum"
@@ -51,7 +51,7 @@
         "flowrate": "400",
         "name": "Pump 9",
         "pin": "9",
-        "value": "bourbon"
+        "value": "soda"
     },
     "pump_10": {
         "flowrate": "400",
@@ -66,25 +66,25 @@
         "value": "white-rum"
     },
     "pump_12": {
-        "flowrate": "400",
+        "flowrate": "100",
         "name": "Pump 12",
         "pin": "12",
         "value": "white-rum"
     },
     "pump_13": {
-        "flowrate": "100",
+        "flowrate": "400",
         "name": "Pump 13",
         "pin": "13",
-        "value": "white-rum"
+        "value": "bourbon"
     },
     "pump_14": {
-        "flowrate": "100",
+        "flowrate": "400",
         "name": "Pump 14",
         "pin": "14",
         "value": "tonic-water"
     },
     "pump_15": {
-        "flowrate": "100",
+        "flowrate": "400",
         "name": "Pump 15",
         "pin": "15",
         "value": "water"

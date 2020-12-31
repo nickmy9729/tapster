@@ -59,16 +59,16 @@ class Application():
                 self.availDrinks.append(d)
                 self.drinkList.insert(END, d.name)
     
-    def pour_drink(self, wiz, bttn, lblvar, recipe):
+    def pour_drink(self, wiz, bttn, lblvar, ing_sizes):
         bttn.config(state=DISABLED)
         step_num = wiz.pane_names.index(wiz.selected_pane)
         num_steps = len(wiz.pane_names)
-        lblvar.set("Pouring Ingredients\n\n" + "\n".join(recipe.attributes['steps'][step_num - 1]))
+        lblvar.set("Pouring Ingredients\n\n" + "\n".join(ing_sizes))
         var = IntVar()
         self.master.after(10000, var.set, 1)
-        print("waiting...")
-        self.master.wait_variable(var)
-        #time.sleep(10)
+        bartender.pourIngredients(ing_sizes)
+        while bartender.running:
+            print("waiting...")
         if step_num + 1 == num_steps:
             wiz.set_finish_enabled(True)
             lblvar.set("Pour complete, please click finish")
@@ -126,11 +126,9 @@ class Application():
         ing_sizes, total_mls = getDrinkSize(recipe.name)
         lbl = Label(pane, text="Making Drink " + recipe.name + "\n\nDrink Size will be " + str(bartender.mlToOZ(total_mls)) + "oz", font=("Helvetica", 15))
         lbl.pack(side=TOP, fill=BOTH, expand=1)
-        print(recipe.attributes)
         if 'steps' in recipe.attributes:
             step_idx = 1
             num_steps = len(recipe.attributes['steps'])
-            print("Num Steps " + str(num_steps))
             for step in recipe.attributes['steps']:
                 pane = None
                 if isinstance(step, str):
@@ -144,7 +142,7 @@ class Application():
                     lbl  = Label(pane, textvariable=text_var, font=("Helvetica", 15))
                     lbl.pack(side=TOP, fill=BOTH, expand=1)
                     bttn = Button(pane, text="Pour", font=("Helvetica", 15))
-                    bttn.config(command=lambda: self.pour_drink(wiz, bttn, text_var, recipe))
+                    bttn.config(command=lambda: self.pour_drink(wiz, bttn, text_var, ing_sizes))
                     bttn.pack(side=BOTTOM, fill=BOTH)
                 step_idx = step_idx + 1
         self.master.wait_window(wiz)
@@ -161,7 +159,6 @@ class Application():
         self.drinkSelection.delete(0, END)
         self.drinkSelection.insert(END, "Drink Name: " + self.availDrinks[index].name)
         self.drinkSelection.insert(END, "Ingredients: ")
-        pprint.pprint(self.availDrinks[index].attributes)
         for i in self.availDrinks[index].attributes['ingredients']:
             self.drinkSelection.insert(END, "    " + i + ": " + str(self.availDrinks[index].attributes['ingredients'][i]) + " parts")
         
@@ -199,9 +196,15 @@ def launchPumpConfigUI():
         c = 0
         for k in columns.keys():
             if k == "Prime" or k == "Clean" or k == "Test":
-                but = Button(win, text=k, font=("Helvetica", 15))
-                but.grid(row=row, column=c)
-                cells[(row,c)] = but
+                if k == "Prime":
+                    cells[(row,c)] = Button(win, text=k, command=lambda p=p: bartender.primePump(p), font=("Helvetica", 15))
+                    cells[(row,c)].grid(row=row, column=c)
+                if k == "Clean":
+                    cells[(row,c)] = Button(win, text=k, command=lambda p=p: bartender.cleanPump(p), font=("Helvetica", 15))
+                    cells[(row,c)].grid(row=row, column=c)
+                if k == "Test":
+                    cells[(row,c)] = Button(win, text=k, command=lambda p=p: bartender.testPump(p), font=("Helvetica", 15))
+                    cells[(row,c)].grid(row=row, column=c)
             else:
                 if k == 'Ingredient':
                     tkvar = StringVar(win)
