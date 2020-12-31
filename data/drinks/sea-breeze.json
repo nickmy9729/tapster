@@ -1,0 +1,15 @@
+{
+    "name": "Sea Breeze",
+    "ingredients": {
+        "cranberry-juice": 90,
+        "grapefruit-juice": 45,
+        "vodka": 45
+    },
+    "steps": [
+        "Placed highball glass wiuth ice",
+        ["cranberry-juice", "grapefruit-juice", "vodka"],
+        "Garnish with lime wheel."
+    ],
+    "recommended_size": 6,
+    "recommended_glass": "highball"
+}

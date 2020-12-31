@@ -209,6 +209,7 @@ def launchPumpConfigUI():
                 if k == 'Ingredient':
                     tkvar = StringVar(win)
                     choices = sorted(list(map(lambda x: bartender.slugify(x['name']), bartender.getIngredientsList())))
+                    choices.insert(0, "UNUSED")
                     b = ttk.Combobox(win)
                     b['values'] = choices
                     try:

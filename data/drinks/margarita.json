@@ -1,0 +1,18 @@
+{
+    "name": "Margarita",
+    "ingredients": {
+        "silver-tequila": 45,
+        "cointreau": 30,
+        "lime-juice": 22,
+        "simple-syrup": 5
+    },
+    "steps": [
+        "Run a juicy lime wedge around the rim, then dip the rim in coarse Kosher salt, and set aside",
+        "Place a shaker with ice."
+        ["silver-tequila", "cointreau", "lime-juice", "simple-syrup"],
+        "Shake, and pour into salt lined glass",
+        "Garnish with a lime slice."
+    ],
+    "recommended_size": 6,
+    "recommended_glass": "cocktail"
+}

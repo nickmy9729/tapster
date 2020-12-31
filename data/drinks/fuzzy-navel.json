@@ -1,0 +1,14 @@
+{
+    "name": "Fuzzy Navel",
+    "ingredients": {
+        "peach-schnapps": 90,
+        "orange-juice": 90
+    },
+    "steps": [
+        "Place highball glass with ice.",
+        ["peach-schnapps", "orange-juice"],
+        "Garnish with an orange slice."
+    ],
+    "recommended_size": 6,
+    "recommended_glass": "highball"
+}

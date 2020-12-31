@@ -1,0 +1,17 @@
+{
+    "name": "Sex On The Beach",
+    "ingredients": {
+        "cranberry-juice": 60,
+        "orange-juice": 60,
+        "peach-schnapps": 30,
+        "vodka": 45
+    },
+    "steps": [
+        "Placed highball glass wiuth ice",
+        ["orange-juice", "vodka", "peach-schnapps"],
+        ["cranberry-juice"],
+        "Garnish with orange wedge."
+    ],
+    "recommended_size": 7,
+    "recommended_glass": "highball"
+}

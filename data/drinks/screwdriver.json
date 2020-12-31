@@ -1,0 +1,14 @@
+{
+    "name": "Screwdriver",
+    "ingredients": {
+        "vodka": 45,
+        "orange-juice": 120
+    },
+    "steps": [
+        "Place a highball glass with ice.",
+        ["vodka"],
+        ["orange-juice"]
+    ],
+    "recommended_size": 6,
+    "recommended_glass": "highball"
+}

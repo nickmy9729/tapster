@@ -1,0 +1,18 @@
+{
+    "name": "Pina Colada",
+    "ingredients": {
+        "pineapple-juice": 45,
+        "coconut-cream": 45,
+        "white-rum": 60,
+        "lime-juice": 15
+    },
+    "steps": [
+        "Place shaker with ice."
+        ["white-rum", "coconut-cream", "pineapple-juice", "lime-juice"],
+        "Shake vigorously fro 20 to 30 seconds.",
+        "Strain into a chilled Hurricane glass over pebble ice.",
+        "Garnish with a pineapple wedge and pineapple leaf."
+    ],
+    "recommended_size": 6,
+    "recommended_glass": "hurricane"
+}

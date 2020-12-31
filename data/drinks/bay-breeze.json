@@ -1,0 +1,15 @@
+{
+    "name": "Bay Breeze",
+    "ingredients": {
+        "cranberry-juice": 120,
+        "pineapple-juice": 60,
+        "vodka": 60
+    },
+    "steps": [
+        "Placed highball glass wiuth ice",
+        ["cranberry-juice", "pineapple-juice", "vodka"],
+        "Garnish with pineapple wedges."
+    ],
+    "recommended_size": 6,
+    "recommended_glass": "highball"
+}
