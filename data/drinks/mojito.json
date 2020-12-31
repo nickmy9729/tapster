@@ -1,0 +1,21 @@
+{
+    "name": "Mojito",
+    "ingredients": {
+        "simple-syrup": 15,
+        "white-rum": 60,
+        "lime-juice": 22.5, 
+        "soda": 90 
+    },
+    "steps": [
+        "Place 3 mint leaves in a shaker and place shaker.",
+        ["simple-syrup"],
+        "Lightly muddle 3 mint leaves with the simple syrup in a shaker.",
+        ["white-rum", "lime-juice"],
+        "Add ice, and give it a shake.",
+        "Strain into a highball glass over fresh ice.",
+        ["soda"],
+        "Garnish with a mint sprig and lime wheel."
+    ],
+    "recommended_size": 6,
+    "recommended_glass": "highball"
+}

@@ -1,0 +1,16 @@
+{
+    "name": "Cosmopolitan",
+    "ingredients": {
+        "vodka": 45,
+        "cointreau": 30,
+        "cranberry-juice": 1,
+        "lime-juice": 15
+    },
+    "steps": [
+        "Place cocktail shaker with ice",
+        ["vodka", "cointreau", "lime-juice", "cranberry-juice"],
+        "Shake until well chilled.\nStrain into cocktail glass.\nGarnish with a lime wedge."
+    ],
+    "recommended_size": 3.1,
+    "recommended_glass": "cocktail"
+}
