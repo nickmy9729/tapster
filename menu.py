@@ -336,8 +336,6 @@ adminbar = Menu(menubar, tearoff=0)
 adminbar.add_command(label="Pump Config", command=launchPumpConfigUI, font=("Helvetica", 20))
 menubar.add_cascade(label="Admin", menu=adminbar, font=("Helvetica", 20))
 root.config(menu=menubar)
-#bigfont = tkFont.Font(family="Helvetica",size=20)
-#root.option_add("*TCombobox*Listbox*Font", bigfont)
 menu = Application(root, bartender)
 
 
