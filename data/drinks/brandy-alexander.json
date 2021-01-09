@@ -1,0 +1,16 @@
+{
+    "name": "Brandy Alexander",
+    "ingredients": {
+        "brandy": 30,
+        "dark-creme-de-cacao": 25,
+        "half-half": 50
+    },
+    "steps": [
+        "Place shaker with ice",
+        ["brandy", "dark-creme-de-cacao", "half-half"],
+        "Shake, and strain into martini glass",
+        "Garnish with grated nutmeg"
+    ],
+    "recommended_size": 6.0,
+    "recommended_glass": "martini"
+}

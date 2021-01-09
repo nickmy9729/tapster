@@ -1,0 +1,16 @@
+{
+    "name": "Tequila Sunrise",
+    "ingredients": {
+        "tequila": 45,
+        "grenadine": 22.5,
+        "orange-juice": 177
+    },
+    "steps": [
+        "Place highball glass with ice",
+        ["tequila", "orange-juice"],
+        ["grenadine"],
+        "Allow to settle, Garnish with an orange slice and cherry"
+    ],
+    "recommended_size": 8,
+    "recommended_glass": "highball"
+}

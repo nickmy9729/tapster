@@ -1,0 +1,21 @@
+{
+    "name": "Hedgerow Sling",
+    "ingredients": {
+        "gin": 25,
+        "sloe-gin": 25,
+        "lemon-juice": 25,
+        "gromme": 10,
+        "creme-de-mure": 15,
+        "soda": 5
+    },
+    "steps": [
+        "Place sling glass",
+        ["gin", "sloe-gin", "lemon-juice", "gromme", "soda"],
+        "Stir",
+        ["creme-de-mure"],
+        "Garnish with blackberry and lemon slice"
+       
+    ],
+    "recommended_size": 4.0,
+    "recommended_glass": "sling"
+}

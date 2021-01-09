@@ -1,0 +1,17 @@
+{
+    "name": "Painkiller",
+    "ingredients": {
+        "rum": 50,
+        "pineapple-juice": 75,
+        "orange-juice": 30,
+        "coconut-cream": 30
+    },
+    "steps": [
+        "Place shaker with ice",
+        ["rum", "pineapple-juice", orange-juice", "coconut-cream"],
+        "Shake, strain int Collins glass",
+        "Garnish with grated nutmeg"
+    ],
+    "recommended_size": 6.0,
+    "recommended_glass": "collins"
+}

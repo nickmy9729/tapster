@@ -1,0 +1,16 @@
+{
+    "name": "Mitch Martini",
+    "ingredients": {
+        "bison-grass-vodka": 50,
+        "peach-liquer": 10,
+        "passionfruit-syrup": 10,
+        "apple-juice": 50
+    },
+    "steps": [
+        "Place shaker with ice",
+        ["bison-grass-vodka", "peach-liquer", "passionfruit-syrup", "apple-juice"],
+        "Shake, and strain into a Martini Glass."
+    ],
+    "recommended_size": 5.0,
+    "recommended_glass": "martini"
+}

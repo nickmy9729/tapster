@@ -1,0 +1,16 @@
+{
+    "name": "Japanese Slipper",
+    "ingredients": {
+        "midori": 30,
+        "triple-sec": 30,
+        "lemon-juice": 25
+    },
+    "steps": [
+        "Place shaker with ice",
+        ["midori", "triple-sec", "lemon-juice" ],
+        "Shake, and strain into martini glass",
+        "garnish with cherry"
+    ],
+    "recommended_size": 4.0,
+    "recommended_glass": "martini"
+}

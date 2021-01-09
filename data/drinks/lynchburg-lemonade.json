@@ -1,0 +1,16 @@
+{
+    "name": "Lynchburg Lemonade",
+    "ingredients": {
+        "whisky": 35,
+        "triple-sec": 25,
+        "lemon-juice": 25,
+        "lemonade": 50
+    },
+    "steps": [
+        "Place collins glass with ice",
+        ["whisky", "triple-sec", "lemon-juice", "lemonade"],
+        "Stir and garnish with a lemon wedge"
+    ],
+    "recommended_size": 4.5,
+    "recommended_glass": "collins"
+}

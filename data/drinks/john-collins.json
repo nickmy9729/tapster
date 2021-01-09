@@ -1,0 +1,19 @@
+{
+    "name": "John Collins",
+    "ingredients": {
+        "bourbon": 60,
+        "lemon-juice": 30,
+        "simple-syrup": 5,
+        "soda": 60
+    },
+    "steps": [
+        "Place shaker with ice",
+        ["bourbon", "lemon-juice", "simple-syrup"],
+        "Shake until chilled, strain into a collins glass",
+        "Place collins glass, add ice",
+        ["soda"],
+        "Stir, garnish with orange slice, lemon slice, and cherry"
+    ],
+    "recommended_size": 6,
+    "recommended_glass": "collins"
+}

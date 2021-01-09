@@ -1,0 +1,19 @@
+{
+    "name": "57 Chevy",
+    "ingredients": {
+        "southern-comfort": 30,
+        "gin": 30,
+        "vodka": 30,
+        "orange-juice": 5,
+        "pineapple-juice": 5,
+        "grenadine": 5
+    },
+    "steps": [
+        "Place shaker with ice.",
+        ["southern-comfort", "gin", "vodka", "orange-juice", "pineapple-juice"],
+        "Strain into cocktail glass",
+        ["grenadine"]
+    ],
+    "recommended_size": 6,
+    "recommended_glass": "cocktail"
+}

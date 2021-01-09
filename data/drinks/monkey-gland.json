@@ -1,0 +1,16 @@
+{
+    "name": "Monkey Gland",
+    "ingredients": {
+        "gin": 50,
+        "absinthe": 15,
+        "grenadine": 15,
+        "orange-juice": 60
+    },
+    "steps": [
+        "Place shaker with ice",
+        ["gin", "absinthe", "grenadine", "orange-juice"],
+        "Shake, and strain into a Martini glass."
+    ],
+    "recommended_size": 5.0,
+    "recommended_glass": "martini"
+}

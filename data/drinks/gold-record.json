@@ -1,0 +1,15 @@
+{
+    "name": "Gold Record",
+    "ingredients": {
+        "tequila": 30,
+        "lime-juice": 5,
+        "orange-juice": 200
+    },
+    "steps": [
+        "Place shaker",
+        ["tequila", "lime-juice", "orange-juice"],
+        "Shake, and strain into ice filled highball glass"
+    ],
+    "recommended_size": 8.0,
+    "recommended_glass": "highball"
+}

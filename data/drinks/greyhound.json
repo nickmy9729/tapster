@@ -1,0 +1,14 @@
+{
+    "name": "Greyhound",
+    "ingredients": {
+        "vodka": 50,
+        "pink-grapefruit-juice": 75
+    },
+    "steps": [
+        "Place collins glass with ice",
+        ["vodka", "pink-grapefruit-juice"],
+        "Garnish with lime wedge"
+    ],
+    "recommended_size": 4.0,
+    "recommended_glass": "collins"
+}
