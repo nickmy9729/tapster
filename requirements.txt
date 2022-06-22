@@ -1,5 +1,5 @@
 belfrywidgets==1.0.3
-numpy==1.18.1
+numpy==1.22.0
 Pillow==8.0.1
 pkg-resources==0.0.0
 RPi.GPIO==0.6.3
